@@ -67,10 +67,10 @@ const warehouseData = [
   ['Milestone', 'Target Date', 'Status %', 'Complete', 'Actual Date', 'Notes'],
   ['Lease Agreement Signed', '2025-06-01', 100, 'Yes', '2025-05-28', 'Long-term lease secured'],
   ['Landlord Refurb Design Approved', '2025-09-01', 100, 'Yes', '2025-08-25', 'Specifications agreed'],
-  ['Warehouse Refurb', '2026-04-01', 15, 'No', '', 'Started 4 Nov 2025 - landlord managing refurbishment (4 weeks in)'],
-  ['Internal Fit-out Planning', '2026-05-01', 0, 'No', '', 'Racking layout design - begins as refurb nears completion'],
-  ['Racking & Storage Installed', '2026-06-15', 0, 'No', '', 'Industrial racking system'],
-  ['Warehouse Operational', '2026-07-15', 0, 'No', '', 'Target go-live date'],
+  ['Warehouse Refurb', '2026-01-15', 15, 'No', '', 'Started 4 Nov 2025 - landlord managing refurbishment (4 weeks in)'],
+  ['Internal Fit-out Planning', '2026-02-15', 0, 'No', '', 'Racking layout design - begins as refurb nears completion'],
+  ['Racking & Storage Installed', '2026-03-15', 0, 'No', '', 'Industrial racking system'],
+  ['Warehouse Operational', '2026-04-15', 0, 'No', '', 'Target go-live date'],
 ];
 const warehouseSheet = XLSX.utils.aoa_to_sheet(warehouseData);
 warehouseSheet['!cols'] = [{ wch: 30 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 30 }];
@@ -142,7 +142,7 @@ const settingsData = [
   ['Showroom Target Date', '2026-07-01', 'Target completion'],
   ['Showroom Paused', 'Yes', 'Project currently on hold pending strategic review'],
   ['Warehouse Location', 'UK Warehouse', 'Display name'],
-  ['Warehouse Target Date', '2026-07-15', 'Target completion'],
+  ['Warehouse Target Date', '2026-04-15', 'Target completion'],
   ['Warehouse Paused', 'No', ''],
   ['Gross Margin Target', 45, 'Percentage'],
   ['B2B Split', 60, 'Percentage of revenue'],
