@@ -66,7 +66,7 @@ XLSX.utils.book_append_sheet(workbook, showroomSheet, 'Showroom_Progress');
 const warehouseData = [
   ['Milestone', 'Target Date', 'Status %', 'Complete', 'Actual Date', 'Notes'],
   ['Lease Agreement Signed', '2025-06-01', 100, 'Yes', '2025-05-28', 'Long-term lease secured'],
-  ['Landlord Refurb Design Approved', '2025-09-01', 100, 'Yes', '2025-08-25', 'Specifications agreed'],
+  ['Refurb Design Approved', '2025-09-01', 100, 'Yes', '2025-08-25', 'Specifications agreed'],
   ['Warehouse Refurb', '2026-01-15', 15, 'No', '', 'Started 4 Nov 2025 - landlord managing refurbishment (4 weeks in)'],
   ['Internal Fit-out Planning', '2026-02-15', 0, 'No', '', 'Racking layout design - begins as refurb nears completion'],
   ['Racking & Storage Installed', '2026-03-15', 0, 'No', '', 'Industrial racking system'],
