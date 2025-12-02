@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   Header,
   CapitalPanel,
-  ProjectProgress,
+  MilestoneTimeline,
   BudgetActual,
   OperationalReadiness,
   FinancialOutlook,
@@ -176,12 +176,12 @@ export default function Dashboard() {
 
         {/* Grid Layout */}
         <div className="grid grid-cols-12 gap-5">
-          {/* Row 1: Capital (4 cols) + Project Progress (8 cols) */}
+          {/* Row 1: Capital (4 cols) + Milestone Timeline (8 cols) */}
           <div className="col-span-12 lg:col-span-4">
             <CapitalPanel data={data.capital} />
           </div>
           <div className="col-span-12 lg:col-span-8">
-            <ProjectProgress showroom={data.showroom} warehouse={data.warehouse} />
+            <MilestoneTimeline showroom={data.showroom} warehouse={data.warehouse} />
           </div>
 
           {/* Row 2: Budget (8 cols) + Operational (4 cols) */}

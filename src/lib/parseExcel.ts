@@ -283,17 +283,25 @@ export function parseExcelFile(buffer: ArrayBuffer): DashboardData {
   // Parse settings for locations and dates
   let showroomLocation = 'London Showroom';
   let showroomTargetDate = '2025-06-01';
+  let showroomPaused = true;
+  let showroomPauseReason = 'Project currently on hold pending strategic review';
   let warehouseLocation = 'UK Warehouse';
   let warehouseTargetDate = '2026-01-15';
+  let warehousePaused = false;
+  let warehousePauseReason = '';
   let grossMarginTarget = 45;
   let b2bSplit = 60;
   let b2cSplit = 40;
   
   if (settingsSheet) {
-    const settings = XLSX.utils.sheet_to_json<{ Setting: string; Value: string | number }>(settingsSheet);
+    const settings = XLSX.utils.sheet_to_json<{ Setting: string; Value: string | number; Notes?: string }>(settingsSheet);
     const getSetting = (name: string): string | number | undefined => {
       const row = settings.find(s => s.Setting?.toLowerCase().includes(name.toLowerCase()));
       return row?.Value;
+    };
+    const getSettingNotes = (name: string): string | undefined => {
+      const row = settings.find(s => s.Setting?.toLowerCase().includes(name.toLowerCase()));
+      return row?.Notes;
     };
     
     showroomLocation = String(getSetting('showroom location') || showroomLocation);
@@ -303,18 +311,39 @@ export function parseExcelFile(buffer: ArrayBuffer): DashboardData {
     grossMarginTarget = Number(getSetting('gross margin')) || grossMarginTarget;
     b2bSplit = Number(getSetting('b2b split')) || b2bSplit;
     b2cSplit = Number(getSetting('b2c split')) || b2cSplit;
+    
+    // Parse paused states
+    const showroomPausedVal = getSetting('showroom paused');
+    showroomPaused = showroomPausedVal === 'Yes' || showroomPausedVal === 'yes' || showroomPausedVal === 1;
+    showroomPauseReason = String(getSettingNotes('showroom paused') || showroomPauseReason);
+    
+    const warehousePausedVal = getSetting('warehouse paused');
+    warehousePaused = warehousePausedVal === 'Yes' || warehousePausedVal === 'yes' || warehousePausedVal === 1;
+    warehousePauseReason = String(getSettingNotes('warehouse paused') || '');
   }
   
   const financial = financialSheet ? parseFinancial(financialSheet) : getDefaultFinancial();
   
+  const showroomData = showroomSheet 
+    ? parseProject(showroomSheet, showroomLocation, showroomTargetDate)
+    : getDefaultShowroom();
+    
+  const warehouseData = warehouseSheet 
+    ? parseProject(warehouseSheet, warehouseLocation, warehouseTargetDate)
+    : getDefaultWarehouse();
+
   return {
     capital: capitalSheet ? parseCapital(capitalSheet) : getDefaultCapital(),
-    showroom: showroomSheet 
-      ? parseProject(showroomSheet, showroomLocation, showroomTargetDate)
-      : getDefaultShowroom(),
-    warehouse: warehouseSheet 
-      ? parseProject(warehouseSheet, warehouseLocation, warehouseTargetDate)
-      : getDefaultWarehouse(),
+    showroom: {
+      ...showroomData,
+      isPaused: showroomPaused,
+      pauseReason: showroomPauseReason,
+    },
+    warehouse: {
+      ...warehouseData,
+      isPaused: warehousePaused,
+      pauseReason: warehousePauseReason,
+    },
     budget: costsSheet ? parseBudget(costsSheet) : getDefaultBudget(),
     operational: suppliersSheet ? parseOperational(suppliersSheet, settingsSheet) : getDefaultOperational(),
     financial: {
@@ -358,6 +387,8 @@ export function getDefaultShowroom(): ProjectData {
       { name: 'Fixtures & Displays Installed', targetDate: new Date('2025-04-15'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
       { name: 'Showroom Launch', targetDate: new Date('2025-06-01'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
     ],
+    isPaused: true,
+    pauseReason: 'Project currently on hold pending strategic review',
   };
 }
 

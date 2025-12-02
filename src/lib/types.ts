@@ -53,6 +53,8 @@ export interface ProjectData {
   daysRemaining: number;
   milestones: Milestone[];
   notes?: string;
+  isPaused?: boolean;
+  pauseReason?: string;
 }
 
 export interface BudgetData {
