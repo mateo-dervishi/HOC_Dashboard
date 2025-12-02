@@ -49,12 +49,12 @@ XLSX.utils.book_append_sheet(workbook, costsSheet, 'Costs_Tracker');
 // ============================================
 const showroomData = [
   ['Milestone', 'Target Date', 'Status %', 'Complete', 'Actual Date', 'Notes'],
-  ['Lease Agreement Signed', '2024-11-01', 100, 'Yes', '2024-10-28', 'Completed ahead of schedule'],
-  ['Design Plans Approved', '2024-12-15', 100, 'Yes', '2024-12-10', 'Final designs signed off'],
-  ['Contractor Appointed', '2025-01-15', 75, 'No', '', 'Final quotes being reviewed'],
-  ['Fit-out Commences', '2025-02-01', 0, 'No', '', 'Awaiting contractor selection'],
-  ['Fixtures & Displays Installed', '2025-04-15', 0, 'No', '', 'Custom displays ordered'],
-  ['Showroom Launch', '2025-06-01', 0, 'No', '', 'Target opening date'],
+  ['Lease Agreement Signed', '2025-03-01', 100, 'Yes', '2025-02-25', 'Completed ahead of schedule'],
+  ['Design Plans Approved', '2025-05-15', 100, 'Yes', '2025-05-10', 'Final designs signed off'],
+  ['Contractor Appointed', '2025-07-15', 50, 'No', '', 'Paused - reviewing options'],
+  ['Fit-out Commences', '2026-03-01', 0, 'No', '', 'On hold pending strategic review'],
+  ['Fixtures & Displays Installed', '2026-05-15', 0, 'No', '', 'Custom displays to be ordered'],
+  ['Showroom Launch', '2026-07-01', 0, 'No', '', 'Revised target date'],
 ];
 const showroomSheet = XLSX.utils.aoa_to_sheet(showroomData);
 showroomSheet['!cols'] = [{ wch: 28 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 30 }];
@@ -65,12 +65,12 @@ XLSX.utils.book_append_sheet(workbook, showroomSheet, 'Showroom_Progress');
 // ============================================
 const warehouseData = [
   ['Milestone', 'Target Date', 'Status %', 'Complete', 'Actual Date', 'Notes'],
-  ['Lease Agreement Signed', '2024-10-01', 100, 'Yes', '2024-09-25', 'Long-term lease secured'],
-  ['Landlord Refurb Design Approved', '2024-11-01', 100, 'Yes', '2024-10-28', 'Specifications agreed'],
-  ['Warehouse Refurb', '2025-08-01', 15, 'No', '', 'Started 4 Nov 2024 - landlord managing refurbishment (4 weeks in)'],
-  ['Internal Fit-out Planning', '2025-09-01', 0, 'No', '', 'Racking layout design - begins as refurb nears completion'],
-  ['Racking & Storage Installed', '2025-11-15', 0, 'No', '', 'Industrial racking system'],
-  ['Warehouse Operational', '2026-01-15', 0, 'No', '', 'Target go-live date'],
+  ['Lease Agreement Signed', '2025-06-01', 100, 'Yes', '2025-05-28', 'Long-term lease secured'],
+  ['Landlord Refurb Design Approved', '2025-09-01', 100, 'Yes', '2025-08-25', 'Specifications agreed'],
+  ['Warehouse Refurb', '2026-04-01', 15, 'No', '', 'Started 4 Nov 2025 - landlord managing refurbishment (4 weeks in)'],
+  ['Internal Fit-out Planning', '2026-05-01', 0, 'No', '', 'Racking layout design - begins as refurb nears completion'],
+  ['Racking & Storage Installed', '2026-06-15', 0, 'No', '', 'Industrial racking system'],
+  ['Warehouse Operational', '2026-07-15', 0, 'No', '', 'Target go-live date'],
 ];
 const warehouseSheet = XLSX.utils.aoa_to_sheet(warehouseData);
 warehouseSheet['!cols'] = [{ wch: 30 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 30 }];
@@ -139,10 +139,10 @@ XLSX.utils.book_append_sheet(workbook, risksSheet, 'Risks_Issues');
 const settingsData = [
   ['Setting', 'Value', 'Notes'],
   ['Showroom Location', 'London Showroom', 'Display name'],
-  ['Showroom Target Date', '2025-06-01', 'Target completion'],
+  ['Showroom Target Date', '2026-07-01', 'Target completion'],
   ['Showroom Paused', 'Yes', 'Project currently on hold pending strategic review'],
   ['Warehouse Location', 'UK Warehouse', 'Display name'],
-  ['Warehouse Target Date', '2026-01-15', 'Target completion'],
+  ['Warehouse Target Date', '2026-07-15', 'Target completion'],
   ['Warehouse Paused', 'No', ''],
   ['Gross Margin Target', 45, 'Percentage'],
   ['B2B Split', 60, 'Percentage of revenue'],
