@@ -182,9 +182,10 @@ function TimelineCard({ project, title, icon: Icon, isPaused = false, pauseReaso
               <div className="relative flex justify-between">
                 {project.milestones.map((milestone, idx) => {
                   const daysUntil = getDaysUntil(milestone.targetDate);
-                  const isOverdue = daysUntil !== null && daysUntil < 0 && !milestone.complete;
-                  const isUpcoming = daysUntil !== null && daysUntil >= 0 && daysUntil <= 14 && !milestone.complete;
+                  const isOverdue = daysUntil !== null && daysUntil < 0 && !milestone.complete && milestone.statusPercent === 0;
+                  const isInProgress = !milestone.complete && milestone.statusPercent > 0;
                   const isCurrent = !milestone.complete && idx === completedMilestones;
+                  const isFuture = !milestone.complete && idx > completedMilestones;
                   
                   return (
                     <div 
@@ -199,42 +200,39 @@ function TimelineCard({ project, title, icon: Icon, isPaused = false, pauseReaso
                           transition-all duration-300
                           ${milestone.complete 
                             ? 'bg-[#4A9C6D]' 
-                            : isCurrent
-                              ? `bg-[#111111] border-2`
-                              : 'bg-[#1A1A1A] border border-[#333333]'
+                            : isInProgress
+                              ? 'bg-[#111111] border-2 border-[#D4A84B]'
+                              : isCurrent
+                                ? 'bg-[#111111] border-2 border-[#C9A962]'
+                                : 'bg-[#1A1A1A] border border-[#333333]'
                           }
-                          ${isOverdue ? 'border-[#C94A4A]' : ''}
-                          ${isUpcoming && !isOverdue ? 'border-[#D4A84B]' : ''}
-                          ${isCurrent && !isOverdue && !isUpcoming ? `border-[${statusColor}]` : ''}
                         `}
-                        style={isCurrent && !isOverdue && !isUpcoming ? { borderColor: statusColor } : {}}
                       >
                         {milestone.complete ? (
                           <CheckCircle2 size={18} className="text-white" />
-                        ) : isOverdue ? (
-                          <AlertTriangle size={16} className="text-[#C94A4A]" />
+                        ) : isInProgress ? (
+                          <Clock size={16} className="text-[#D4A84B]" />
                         ) : isCurrent ? (
                           <div 
-                            className="w-3 h-3 rounded-full animate-pulse"
-                            style={{ backgroundColor: statusColor }}
+                            className="w-3 h-3 rounded-full animate-pulse bg-[#C9A962]"
                           />
                         ) : (
                           <Circle size={14} className="text-[#525252]" />
                         )}
                         
                         {/* Progress indicator for in-progress milestones */}
-                        {!milestone.complete && milestone.statusPercent > 0 && (
+                        {isInProgress && (
                           <svg className="absolute inset-0 w-11 h-11 -rotate-90">
                             <circle
                               cx="22"
                               cy="22"
                               r="19"
                               fill="none"
-                              stroke={statusColor}
+                              stroke="#D4A84B"
                               strokeWidth="2"
                               strokeDasharray={`${(milestone.statusPercent / 100) * 119.38} 119.38`}
                               strokeLinecap="round"
-                              opacity="0.5"
+                              opacity="0.7"
                             />
                           </svg>
                         )}
@@ -244,7 +242,7 @@ function TimelineCard({ project, title, icon: Icon, isPaused = false, pauseReaso
                       <div className="mt-3 text-center px-1">
                         <p className={`
                           text-[10px] font-medium leading-tight
-                          ${milestone.complete ? 'text-[#737373]' : 'text-[#F8F7F5]'}
+                          ${milestone.complete ? 'text-[#737373]' : isInProgress ? 'text-[#D4A84B]' : 'text-[#F8F7F5]'}
                         `}>
                           {milestone.name.length > 20 
                             ? milestone.name.substring(0, 18) + '...' 
@@ -253,16 +251,16 @@ function TimelineCard({ project, title, icon: Icon, isPaused = false, pauseReaso
                         </p>
                         <p className={`
                           text-[9px] mt-1 font-tabular
-                          ${isOverdue ? 'text-[#C94A4A]' : 'text-[#525252]'}
+                          ${isInProgress ? 'text-[#D4A84B]' : 'text-[#525252]'}
                         `}>
                           {milestone.complete && milestone.actualDate 
                             ? `✓ ${formatShortDate(milestone.actualDate)}`
                             : formatShortDate(milestone.targetDate)
                           }
                         </p>
-                        {!milestone.complete && milestone.statusPercent > 0 && (
-                          <p className="text-[9px] text-[#D4A84B] mt-0.5">
-                            {milestone.statusPercent}%
+                        {isInProgress && (
+                          <p className="text-[9px] text-[#D4A84B] mt-0.5 font-medium">
+                            {milestone.statusPercent}% done
                           </p>
                         )}
                       </div>
@@ -302,35 +300,39 @@ function TimelineCard({ project, title, icon: Icon, isPaused = false, pauseReaso
             <p className="text-[10px] uppercase tracking-wider text-[#525252] mb-2">All Milestones</p>
             <div className="space-y-1">
               {project.milestones.map((milestone, idx) => {
-                const daysUntil = getDaysUntil(milestone.targetDate);
-                const isOverdue = daysUntil !== null && daysUntil < 0 && !milestone.complete;
+                const isInProgress = !milestone.complete && milestone.statusPercent > 0;
                 
                 return (
                   <div 
                     key={idx}
                     className={`
                       flex items-center justify-between py-2 px-3 rounded-lg
-                      ${milestone.complete ? 'bg-[#4A9C6D]/5' : 'hover:bg-[#111111]'}
+                      ${milestone.complete ? 'bg-[#4A9C6D]/5' : isInProgress ? 'bg-[#D4A84B]/5' : 'hover:bg-[#111111]'}
                       transition-colors
                     `}
                   >
                     <div className="flex items-center gap-3">
                       {milestone.complete ? (
                         <CheckCircle2 size={14} className="text-[#4A9C6D]" />
-                      ) : isOverdue ? (
-                        <AlertTriangle size={14} className="text-[#C94A4A]" />
+                      ) : isInProgress ? (
+                        <Clock size={14} className="text-[#D4A84B]" />
                       ) : (
                         <Circle size={14} className="text-[#333333]" />
                       )}
-                      <span className={`text-sm ${milestone.complete ? 'text-[#737373]' : 'text-[#F8F7F5]'}`}>
+                      <span className={`text-sm ${milestone.complete ? 'text-[#737373]' : isInProgress ? 'text-[#D4A84B]' : 'text-[#F8F7F5]'}`}>
                         {milestone.name}
                       </span>
+                      {isInProgress && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#D4A84B]/20 text-[#D4A84B] uppercase tracking-wider">
+                          In Progress
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center gap-4 text-xs">
-                      {!milestone.complete && milestone.statusPercent > 0 && (
-                        <span className="text-[#D4A84B]">{milestone.statusPercent}%</span>
+                      {isInProgress && (
+                        <span className="text-[#D4A84B] font-medium">{milestone.statusPercent}%</span>
                       )}
-                      <span className={`font-tabular ${isOverdue ? 'text-[#C94A4A]' : 'text-[#525252]'}`}>
+                      <span className={`font-tabular ${isInProgress ? 'text-[#D4A84B]' : 'text-[#525252]'}`}>
                         {milestone.complete && milestone.actualDate
                           ? formatDate(milestone.actualDate)
                           : formatDate(milestone.targetDate)
