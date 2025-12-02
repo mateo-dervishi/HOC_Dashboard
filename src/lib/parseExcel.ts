@@ -383,12 +383,12 @@ export function getDefaultShowroom(): ProjectData {
       { name: 'Lease Agreement Signed', targetDate: new Date('2025-03-01'), statusPercent: 100, complete: true, actualDate: new Date('2025-02-25'), notes: '' },
       { name: 'Design Plans Approved', targetDate: new Date('2025-05-15'), statusPercent: 100, complete: true, actualDate: new Date('2025-05-10'), notes: '' },
       { name: 'Contractor Appointed', targetDate: new Date('2025-07-15'), statusPercent: 50, complete: false, actualDate: null, notes: 'Paused - reviewing options' },
-      { name: 'Fit-out Commences', targetDate: new Date('2026-03-01'), statusPercent: 0, complete: false, actualDate: null, notes: 'On hold pending strategic review' },
+      { name: 'Fit-out Commences', targetDate: new Date('2026-03-01'), statusPercent: 0, complete: false, actualDate: null, notes: 'On hold' },
       { name: 'Fixtures & Displays Installed', targetDate: new Date('2026-05-15'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
       { name: 'Showroom Launch', targetDate: new Date('2026-07-01'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
     ],
     isPaused: true,
-    pauseReason: 'Project currently on hold pending strategic review',
+    pauseReason: 'Project currently on hold',
   };
 }
 

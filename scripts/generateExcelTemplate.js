@@ -52,7 +52,7 @@ const showroomData = [
   ['Lease Agreement Signed', '2025-03-01', 100, 'Yes', '2025-02-25', 'Completed ahead of schedule'],
   ['Design Plans Approved', '2025-05-15', 100, 'Yes', '2025-05-10', 'Final designs signed off'],
   ['Contractor Appointed', '2025-07-15', 50, 'No', '', 'Paused - reviewing options'],
-  ['Fit-out Commences', '2026-03-01', 0, 'No', '', 'On hold pending strategic review'],
+  ['Fit-out Commences', '2026-03-01', 0, 'No', '', 'On hold'],
   ['Fixtures & Displays Installed', '2026-05-15', 0, 'No', '', 'Custom displays to be ordered'],
   ['Showroom Launch', '2026-07-01', 0, 'No', '', 'Revised target date'],
 ];
@@ -140,7 +140,7 @@ const settingsData = [
   ['Setting', 'Value', 'Notes'],
   ['Showroom Location', 'London Showroom', 'Display name'],
   ['Showroom Target Date', '2026-07-01', 'Target completion'],
-  ['Showroom Paused', 'Yes', 'Project currently on hold pending strategic review'],
+  ['Showroom Paused', 'Yes', 'Project currently on hold'],
   ['Warehouse Location', 'UK Warehouse', 'Display name'],
   ['Warehouse Target Date', '2026-04-15', 'Target completion'],
   ['Warehouse Paused', 'No', ''],
