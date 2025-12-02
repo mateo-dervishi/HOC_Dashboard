@@ -154,7 +154,13 @@ function parseBudget(sheet: XLSX.WorkSheet): BudgetData {
   };
 }
 
-function parseOperational(supplierSheet: XLSX.WorkSheet): OperationalData {
+interface SettingsRow {
+  Setting: string;
+  Value: string | number;
+  Notes?: string;
+}
+
+function parseOperational(supplierSheet: XLSX.WorkSheet, settingsSheet?: XLSX.WorkSheet | null): OperationalData {
   const suppliers = XLSX.utils.sheet_to_json<SupplierRow>(supplierSheet);
   
   const confirmedSuppliers = suppliers.filter(s => 
@@ -163,14 +169,42 @@ function parseOperational(supplierSheet: XLSX.WorkSheet): OperationalData {
   
   const totalProducts = suppliers.reduce((sum, s) => sum + (s['Product Count'] || 0), 0);
   
+  // Parse settings if available
+  let staffHired = 1;
+  let staffRequired = 3;
+  let websiteStatus: 'Not Started' | 'In Development' | 'Live' | 'Planned' = 'In Development';
+  let inventorySystemStatus: 'Not Started' | 'In Development' | 'Live' | 'Planned' = 'Planned';
+  
+  if (settingsSheet) {
+    const settings = XLSX.utils.sheet_to_json<SettingsRow>(settingsSheet);
+    
+    const getSetting = (name: string): string | number | undefined => {
+      const row = settings.find(s => s.Setting?.toLowerCase().includes(name.toLowerCase()));
+      return row?.Value;
+    };
+    
+    staffHired = Number(getSetting('staff hired')) || 1;
+    staffRequired = Number(getSetting('staff required')) || 3;
+    
+    const webStatus = String(getSetting('website status') || 'In Development');
+    if (['Not Started', 'In Development', 'Live', 'Planned'].includes(webStatus)) {
+      websiteStatus = webStatus as typeof websiteStatus;
+    }
+    
+    const invStatus = String(getSetting('inventory system') || 'Planned');
+    if (['Not Started', 'In Development', 'Live', 'Planned'].includes(invStatus)) {
+      inventorySystemStatus = invStatus as typeof inventorySystemStatus;
+    }
+  }
+  
   return {
     suppliersConfirmed: confirmedSuppliers.length,
     suppliersTotal: suppliers.length,
     productsInCatalogue: totalProducts,
-    staffHired: 0,
-    staffRequired: 2,
-    websiteStatus: 'In Development',
-    inventorySystemStatus: 'Planned',
+    staffHired,
+    staffRequired,
+    websiteStatus,
+    inventorySystemStatus,
   };
 }
 
@@ -244,18 +278,51 @@ export function parseExcelFile(buffer: ArrayBuffer): DashboardData {
   const suppliersSheet = getSheet('Suppliers');
   const financialSheet = getSheet('Financial_Projections') || getSheet('Financial');
   const risksSheet = getSheet('Risks_Issues') || getSheet('Risks');
+  const settingsSheet = getSheet('Settings');
+  
+  // Parse settings for locations and dates
+  let showroomLocation = 'London Showroom';
+  let showroomTargetDate = '2025-06-01';
+  let warehouseLocation = 'UK Warehouse';
+  let warehouseTargetDate = '2026-01-15';
+  let grossMarginTarget = 45;
+  let b2bSplit = 60;
+  let b2cSplit = 40;
+  
+  if (settingsSheet) {
+    const settings = XLSX.utils.sheet_to_json<{ Setting: string; Value: string | number }>(settingsSheet);
+    const getSetting = (name: string): string | number | undefined => {
+      const row = settings.find(s => s.Setting?.toLowerCase().includes(name.toLowerCase()));
+      return row?.Value;
+    };
+    
+    showroomLocation = String(getSetting('showroom location') || showroomLocation);
+    showroomTargetDate = String(getSetting('showroom target') || showroomTargetDate);
+    warehouseLocation = String(getSetting('warehouse location') || warehouseLocation);
+    warehouseTargetDate = String(getSetting('warehouse target') || warehouseTargetDate);
+    grossMarginTarget = Number(getSetting('gross margin')) || grossMarginTarget;
+    b2bSplit = Number(getSetting('b2b split')) || b2bSplit;
+    b2cSplit = Number(getSetting('b2c split')) || b2cSplit;
+  }
+  
+  const financial = financialSheet ? parseFinancial(financialSheet) : getDefaultFinancial();
   
   return {
     capital: capitalSheet ? parseCapital(capitalSheet) : getDefaultCapital(),
     showroom: showroomSheet 
-      ? parseProject(showroomSheet, 'London Showroom', '2025-06-01')
+      ? parseProject(showroomSheet, showroomLocation, showroomTargetDate)
       : getDefaultShowroom(),
     warehouse: warehouseSheet 
-      ? parseProject(warehouseSheet, 'UK Warehouse', '2026-01-15')
+      ? parseProject(warehouseSheet, warehouseLocation, warehouseTargetDate)
       : getDefaultWarehouse(),
     budget: costsSheet ? parseBudget(costsSheet) : getDefaultBudget(),
-    operational: suppliersSheet ? parseOperational(suppliersSheet) : getDefaultOperational(),
-    financial: financialSheet ? parseFinancial(financialSheet) : getDefaultFinancial(),
+    operational: suppliersSheet ? parseOperational(suppliersSheet, settingsSheet) : getDefaultOperational(),
+    financial: {
+      ...financial,
+      grossMarginTarget,
+      b2bSplit,
+      b2cSplit,
+    },
     risks: risksSheet ? parseRisks(risksSheet) : getDefaultRisks(),
     lastUpdated: new Date(),
   };

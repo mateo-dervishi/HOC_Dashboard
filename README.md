@@ -47,9 +47,18 @@ Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
 
 ## Data Management
 
+### Excel File Location
+
+The dashboard automatically reads from:
+```
+public/data/HOC_Investor_Dashboard_Template.xlsx
+```
+
+When you edit and save this file, simply refresh the dashboard (or wait for auto-refresh every 5 minutes).
+
 ### Excel File Format
 
-The dashboard reads from an Excel file with the following sheets:
+The Excel file contains 8 sheets:
 
 | Sheet Name | Description |
 |------------|-------------|
@@ -60,17 +69,34 @@ The dashboard reads from an Excel file with the following sheets:
 | `Suppliers` | Supplier list and confirmation status |
 | `Financial_Projections` | Monthly revenue targets |
 | `Risks_Issues` | Risk register with RAG status |
+| `Settings` | Dashboard configuration (locations, dates, targets) |
 
-### Uploading Data
+### How to Update Data
 
+**Option 1: Edit the Excel file directly (Recommended)**
+1. Open `public/data/HOC_Investor_Dashboard_Template.xlsx`
+2. Edit the values in any sheet
+3. Save the file
+4. Refresh the dashboard or wait for auto-refresh (every 5 min)
+
+**Option 2: Upload via UI**
 1. Click "Upload Data" in the header
-2. Drag and drop your Excel file or browse to select
-3. The dashboard will parse and display the data
-4. Data persists in browser localStorage
+2. Drag and drop your Excel file
+3. Data will be loaded immediately
 
-### Default Data
+### Regenerate Template
 
-The dashboard includes realistic sample data for demonstration purposes. Upload your own Excel file to replace it.
+To create a fresh Excel template with sample data:
+```bash
+npm run generate-template
+```
+
+### Data Source Indicator
+
+The dashboard shows the current data source:
+- 🟢 **Green** - Live data from Excel file on server
+- 🔵 **Blue** - Data from manually uploaded file
+- 🟡 **Yellow** - Using demo data (no Excel file found)
 
 ## Deployment
 
