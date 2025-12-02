@@ -31,7 +31,7 @@ interface TimelineCardProps {
 }
 
 function TimelineCard({ project, title, icon: Icon, isPaused = false, pauseReason }: TimelineCardProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   
   const formatDate = (date: Date | null) => {
     if (!date) return '—';

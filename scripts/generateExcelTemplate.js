@@ -67,7 +67,7 @@ const warehouseData = [
   ['Milestone', 'Target Date', 'Status %', 'Complete', 'Actual Date', 'Notes'],
   ['Lease Agreement Signed', '2024-10-01', 100, 'Yes', '2024-09-25', 'Long-term lease secured'],
   ['Landlord Refurb Design Approved', '2024-12-01', 100, 'Yes', '2024-11-28', 'Specifications agreed'],
-  ['Landlord Refurb In Progress', '2025-09-01', 15, 'No', '', 'Landlord managing refurbishment'],
+  ['Landlord Refurb In Progress', '2025-09-01', 25, 'No', '', 'Started 3 weeks ago - landlord managing refurbishment'],
   ['Internal Fit-out Planning', '2025-08-01', 0, 'No', '', 'Racking layout design'],
   ['Racking & Storage Installed', '2025-12-01', 0, 'No', '', 'Industrial racking system'],
   ['Warehouse Operational', '2026-01-15', 0, 'No', '', 'Target go-live date'],

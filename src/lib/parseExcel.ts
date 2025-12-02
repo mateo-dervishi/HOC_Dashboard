@@ -395,18 +395,19 @@ export function getDefaultShowroom(): ProjectData {
 export function getDefaultWarehouse(): ProjectData {
   return {
     location: 'UK Warehouse',
-    completionPercent: 25,
+    completionPercent: 37,
     targetDate: new Date('2026-01-15'),
     daysRemaining: getDaysRemaining(new Date('2026-01-15')),
     milestones: [
       { name: 'Lease Agreement Signed', targetDate: new Date('2024-10-01'), statusPercent: 100, complete: true, actualDate: new Date('2024-09-25'), notes: '' },
       { name: 'Landlord Refurb Design Approved', targetDate: new Date('2024-12-01'), statusPercent: 100, complete: true, actualDate: new Date('2024-11-28'), notes: '' },
-      { name: 'Landlord Refurb In Progress', targetDate: new Date('2025-09-01'), statusPercent: 15, complete: false, actualDate: null, notes: 'Landlord managing refurbishment' },
+      { name: 'Landlord Refurb In Progress', targetDate: new Date('2025-09-01'), statusPercent: 25, complete: false, actualDate: null, notes: 'Started 3 weeks ago - landlord managing refurbishment' },
       { name: 'Internal Fit-out Planning', targetDate: new Date('2025-08-01'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
       { name: 'Racking & Storage Installed', targetDate: new Date('2025-12-01'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
       { name: 'Warehouse Operational', targetDate: new Date('2026-01-15'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
     ],
     notes: 'Refurbishment managed by landlord',
+    isPaused: false,
   };
 }
 
