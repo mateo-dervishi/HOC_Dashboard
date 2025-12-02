@@ -219,23 +219,6 @@ function TimelineCard({ project, title, icon: Icon, isPaused = false, pauseReaso
                         ) : (
                           <Circle size={14} className="text-[#525252]" />
                         )}
-                        
-                        {/* Progress indicator for in-progress milestones */}
-                        {isInProgress && (
-                          <svg className="absolute inset-0 w-11 h-11 -rotate-90">
-                            <circle
-                              cx="22"
-                              cy="22"
-                              r="19"
-                              fill="none"
-                              stroke="#D4A84B"
-                              strokeWidth="2"
-                              strokeDasharray={`${(milestone.statusPercent / 100) * 119.38} 119.38`}
-                              strokeLinecap="round"
-                              opacity="0.7"
-                            />
-                          </svg>
-                        )}
                       </div>
 
                       {/* Milestone Label */}
