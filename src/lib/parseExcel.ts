@@ -367,11 +367,11 @@ export function getDefaultCapital(): CapitalData {
     deployed: 0,
     deployedPercent: 0,
     remaining: 625000,
-    burnRate: 17000,
-    runwayMonths: 36,
+    burnRate: 19239,
+    runwayMonths: 32,
     nextMajorExpense: {
-      description: 'Warehouse Initial Payment (Due Dec 19th)',
-      amount: 245176,
+      description: 'Due on landlord handover (Dec 19th)',
+      amount: 218498.60,
     },
   };
 }
@@ -534,7 +534,7 @@ export function getDefaultCashFlow(): CashFlowData {
         closingBalance: 293468.60,
       },
     ],
-    burnRate: 17000,
+    burnRate: 19239,
   };
 }
 

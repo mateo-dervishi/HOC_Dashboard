@@ -19,10 +19,10 @@ const capitalData = [
   ['Total Capital Raised', 625000, 'Total investment secured'],
   ['Capital Deployed', 0, 'No payments made yet - awaiting landlord handover'],
   ['Capital Remaining', 625000, 'Full amount available'],
-  ['Monthly Burn Rate', 17000, 'Estimated ongoing monthly costs after initial setup'],
-  ['Runway (Months)', 36, 'Calculated from remaining/burn rate'],
-  ['Next Major Expense', 245176, 'Due on landlord handover (Dec 19th)'],
-  ['Next Expense Description', 'Warehouse Initial Payment', 'Rent deposit, Q1 rent, service charge, insurance, business rates, legal'],
+  ['Monthly Burn Rate', 19239, 'Average monthly costs (rent, service charge, insurance, business rates)'],
+  ['Runway (Months)', 32, 'Calculated from remaining/burn rate'],
+  ['Next Major Expense', 218498.60, 'Due on landlord handover (Dec 19th)'],
+  ['Next Expense Description', 'December 2025 Total', 'Rent deposit, Q1 rent, service charge, insurance, business rates, legal'],
 ];
 const capitalSheet = XLSX.utils.aoa_to_sheet(capitalData);
 capitalSheet['!cols'] = [{ wch: 25 }, { wch: 15 }, { wch: 55 }];
