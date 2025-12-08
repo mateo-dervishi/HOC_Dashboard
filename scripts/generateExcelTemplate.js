@@ -123,10 +123,8 @@ const risksData = [
   ['Risk ID', 'Risk Name', 'RAG', 'Description', 'Mitigation', 'Status', 'Owner', 'Is Blocker', 'Pending Decision'],
   ['R001', 'Showroom 1st Fix Delay', 'Amber', 'Current standstill on 1st fix works', 'Monitoring closely - expected to resume shortly', 'Open', 'Project Lead', 'No', 'No'],
   ['R002', 'Warehouse Handover Timing', 'Green', 'Landlord confirmed Dec 19th handover', 'Date confirmed - preparing for handover', 'Open', 'Operations', 'No', 'No'],
-  ['R003', 'Supplier Lead Times', 'Amber', 'Chinese New Year may impact initial stock delivery', 'Planning stock order ahead of CNY', 'Open', 'Operations', 'No', 'No'],
-  ['R004', 'Currency Fluctuation', 'Amber', 'GBP/CNY exchange rate volatility', 'Building 5% currency buffer into pricing', 'Open', 'Finance', 'No', 'No'],
-  ['R005', 'Cash Flow Management', 'Green', 'Large initial payment due Dec 19th', 'Capital secured and available', 'Open', 'Finance', 'No', 'No'],
-  ['R006', 'Staff Recruitment', 'Green', 'Need to hire warehouse and showroom staff', 'Recruitment to begin Q1 2026', 'Open', 'HR', 'No', 'No'],
+  ['R003', 'Cash Flow Management', 'Green', 'Large initial payment due Dec 19th', 'Capital secured and available', 'Open', 'Finance', 'No', 'No'],
+  ['R004', 'Staff Recruitment', 'Green', 'Need to hire warehouse and showroom staff', 'Recruitment to begin Q1 2026', 'Open', 'HR', 'No', 'No'],
 ];
 const risksSheet = XLSX.utils.aoa_to_sheet(risksData);
 risksSheet['!cols'] = [
