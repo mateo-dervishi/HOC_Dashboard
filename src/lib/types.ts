@@ -95,10 +95,20 @@ export interface RisksData {
   items: Risk[];
 }
 
+export interface PaymentDetail {
+  item: string;
+  net: number;
+  vat: number;
+  gross: number;
+  vatReclaimable: boolean;
+}
+
 export interface MonthlyOutgoing {
   month: string;
   outgoings: number;
-  details: { item: string; amount: number }[];
+  vatTotal: number;
+  netTotal: number;
+  details: PaymentDetail[];
   closingBalance: number;
 }
 

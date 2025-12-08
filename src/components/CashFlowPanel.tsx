@@ -1,19 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Wallet, TrendingDown, Calendar, ChevronDown, ChevronUp } from 'lucide-react';
-
-interface MonthlyProjection {
-  month: string;
-  outgoings: number;
-  details: { item: string; amount: number }[];
-  closingBalance: number;
-}
+import { Wallet, TrendingDown, Calendar, ChevronDown, ChevronUp, Receipt } from 'lucide-react';
+import { MonthlyOutgoing } from '@/lib/types';
 
 interface CashFlowPanelProps {
   capitalRaised: number;
   capitalDeployed: number;
-  projections: MonthlyProjection[];
+  projections: MonthlyOutgoing[];
   burnRate: number;
 }
 
@@ -22,12 +16,16 @@ export function CashFlowPanel({ capitalRaised, capitalDeployed, projections, bur
   
   const remaining = capitalRaised - capitalDeployed;
   const runwayMonths = burnRate > 0 ? Math.floor(remaining / burnRate) : 0;
+  
+  // Calculate total VAT reclaimable across all projections
+  const totalVatReclaimable = projections.reduce((sum, proj) => sum + proj.vatTotal, 0);
 
   const formatCurrency = (amount: number) => {
     return amount.toLocaleString('en-GB', { 
       style: 'currency', 
       currency: 'GBP', 
-      maximumFractionDigits: 0 
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2 
     });
   };
 
@@ -39,7 +37,7 @@ export function CashFlowPanel({ capitalRaised, capitalDeployed, projections, bur
       </h2>
 
       {/* Summary Row */}
-      <div className="grid grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-5 gap-3 mb-6">
         <div className="p-3 rounded-lg bg-[#0A0A0A] border border-[#1F1F1F]">
           <p className="text-[9px] uppercase tracking-wider text-[#525252] mb-1">Capital Raised</p>
           <p className="text-lg font-light text-[#C9A962] font-tabular">{formatCurrency(capitalRaised)}</p>
@@ -51,6 +49,13 @@ export function CashFlowPanel({ capitalRaised, capitalDeployed, projections, bur
         <div className="p-3 rounded-lg bg-[#0A0A0A] border border-[#1F1F1F]">
           <p className="text-[9px] uppercase tracking-wider text-[#525252] mb-1">Remaining</p>
           <p className="text-lg font-light text-[#4A9C6D] font-tabular">{formatCurrency(remaining)}</p>
+        </div>
+        <div className="p-3 rounded-lg bg-[#4A9C6D]/10 border border-[#4A9C6D]/20">
+          <p className="text-[9px] uppercase tracking-wider text-[#4A9C6D] mb-1 flex items-center gap-1">
+            <Receipt size={9} />
+            VAT Reclaimable
+          </p>
+          <p className="text-lg font-light text-[#4A9C6D] font-tabular">{formatCurrency(totalVatReclaimable)}</p>
         </div>
         <div className="p-3 rounded-lg bg-[#0A0A0A] border border-[#1F1F1F]">
           <p className="text-[9px] uppercase tracking-wider text-[#525252] mb-1 flex items-center gap-1">
@@ -92,15 +97,23 @@ export function CashFlowPanel({ capitalRaised, capitalDeployed, projections, bur
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6">
                   <div className="text-right">
-                    <p className="text-xs text-[#525252]">Outgoings</p>
-                    <p className={`text-sm font-tabular ${isFirstMajorPayment ? 'text-[#C9A962]' : 'text-[#C94A4A]'}`}>
-                      -{formatCurrency(proj.outgoings)}
-                    </p>
+                    <p className="text-[9px] text-[#525252] uppercase">Net</p>
+                    <p className="text-xs font-tabular text-[#A3A3A3]">{formatCurrency(proj.netTotal)}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-[#525252]">Closing Balance</p>
+                    <p className="text-[9px] text-[#4A9C6D] uppercase">VAT</p>
+                    <p className="text-xs font-tabular text-[#4A9C6D]">{formatCurrency(proj.vatTotal)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[9px] text-[#525252] uppercase">Gross</p>
+                    <p className={`text-sm font-tabular font-medium ${isFirstMajorPayment ? 'text-[#C9A962]' : 'text-[#F8F7F5]'}`}>
+                      {formatCurrency(proj.outgoings)}
+                    </p>
+                  </div>
+                  <div className="text-right min-w-[100px]">
+                    <p className="text-[9px] text-[#525252] uppercase">Balance</p>
                     <p className="text-sm font-tabular text-[#4A9C6D]">{formatCurrency(proj.closingBalance)}</p>
                   </div>
                   {isExpanded ? (
@@ -113,13 +126,58 @@ export function CashFlowPanel({ capitalRaised, capitalDeployed, projections, bur
               
               {isExpanded && proj.details.length > 0 && (
                 <div className="px-3 pb-3 border-t border-[#1F1F1F]">
-                  <div className="pt-3 space-y-1">
+                  {/* Header */}
+                  <div className="grid grid-cols-5 gap-4 pt-3 pb-2 px-2 text-[9px] uppercase tracking-wider text-[#525252]">
+                    <div className="col-span-2">Item</div>
+                    <div className="text-right">Net</div>
+                    <div className="text-right">VAT (20%)</div>
+                    <div className="text-right">Gross</div>
+                  </div>
+                  
+                  <div className="space-y-1">
                     {proj.details.map((detail, dIdx) => (
-                      <div key={dIdx} className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-[#111111]">
-                        <span className="text-xs text-[#A3A3A3]">{detail.item}</span>
-                        <span className="text-xs font-tabular text-[#F8F7F5]">{formatCurrency(detail.amount)}</span>
+                      <div 
+                        key={dIdx} 
+                        className="grid grid-cols-5 gap-4 py-2 px-2 rounded hover:bg-[#111111] items-center"
+                      >
+                        <div className="col-span-2 flex items-center gap-2">
+                          <span className="text-xs text-[#A3A3A3]">{detail.item}</span>
+                          {detail.vatReclaimable && detail.vat > 0 && (
+                            <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#4A9C6D]/15 text-[#4A9C6D] uppercase">
+                              VAT Reclaimable
+                            </span>
+                          )}
+                          {!detail.vatReclaimable && detail.vat === 0 && (
+                            <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#525252]/20 text-[#525252] uppercase">
+                              No VAT
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-right text-xs font-tabular text-[#737373]">
+                          {formatCurrency(detail.net)}
+                        </div>
+                        <div className="text-right text-xs font-tabular text-[#4A9C6D]">
+                          {detail.vat > 0 ? formatCurrency(detail.vat) : '—'}
+                        </div>
+                        <div className="text-right text-xs font-tabular text-[#F8F7F5]">
+                          {formatCurrency(detail.gross)}
+                        </div>
                       </div>
                     ))}
+                  </div>
+                  
+                  {/* Totals */}
+                  <div className="grid grid-cols-5 gap-4 pt-3 mt-2 px-2 border-t border-[#1F1F1F]">
+                    <div className="col-span-2 text-xs font-medium text-[#F8F7F5]">Month Total</div>
+                    <div className="text-right text-xs font-tabular font-medium text-[#A3A3A3]">
+                      {formatCurrency(proj.netTotal)}
+                    </div>
+                    <div className="text-right text-xs font-tabular font-medium text-[#4A9C6D]">
+                      {formatCurrency(proj.vatTotal)}
+                    </div>
+                    <div className="text-right text-xs font-tabular font-medium text-[#F8F7F5]">
+                      {formatCurrency(proj.outgoings)}
+                    </div>
                   </div>
                 </div>
               )}
@@ -151,4 +209,3 @@ export function CashFlowPanel({ capitalRaised, capitalDeployed, projections, bur
     </div>
   );
 }
-
