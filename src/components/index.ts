@@ -9,5 +9,6 @@ export { BudgetActual } from './BudgetActual';
 export { OperationalReadiness } from './OperationalReadiness';
 export { FinancialOutlook } from './FinancialOutlook';
 export { RisksPanel } from './RisksPanel';
+export { CashFlowPanel } from './CashFlowPanel';
 export { FileUpload } from './FileUpload';
 

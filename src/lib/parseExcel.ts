@@ -7,6 +7,8 @@ import {
   OperationalData,
   FinancialData,
   RisksData,
+  CashFlowData,
+  MonthlyOutgoing,
   Milestone,
   CategorySpend,
   Risk,
@@ -353,6 +355,7 @@ export function parseExcelFile(buffer: ArrayBuffer): DashboardData {
       b2cSplit,
     },
     risks: risksSheet ? parseRisks(risksSheet) : getDefaultRisks(),
+    cashFlow: getDefaultCashFlow(),
     lastUpdated: new Date(),
   };
 }
@@ -360,15 +363,15 @@ export function parseExcelFile(buffer: ArrayBuffer): DashboardData {
 // Default data functions for when Excel sheets are missing or for demo purposes
 export function getDefaultCapital(): CapitalData {
   return {
-    totalRaised: 250000,
-    deployed: 87500,
-    deployedPercent: 35,
-    remaining: 162500,
-    burnRate: 12500,
-    runwayMonths: 13,
+    totalRaised: 625000,
+    deployed: 0,
+    deployedPercent: 0,
+    remaining: 625000,
+    burnRate: 17000,
+    runwayMonths: 36,
     nextMajorExpense: {
-      description: 'First Stock Order - China Suppliers',
-      amount: 75000,
+      description: 'Warehouse Initial Payment (Due Dec 19th)',
+      amount: 245176,
     },
   };
 }
@@ -376,50 +379,52 @@ export function getDefaultCapital(): CapitalData {
 export function getDefaultShowroom(): ProjectData {
   return {
     location: 'London Showroom',
-    completionPercent: 42,
-    targetDate: new Date('2026-07-01'),
-    daysRemaining: getDaysRemaining(new Date('2026-07-01')),
+    completionPercent: 48,
+    targetDate: new Date('2026-06-01'),
+    daysRemaining: getDaysRemaining(new Date('2026-06-01')),
     milestones: [
       { name: 'Lease Agreement Signed', targetDate: new Date('2025-03-01'), statusPercent: 100, complete: true, actualDate: new Date('2025-02-25'), notes: '' },
-      { name: 'Design Plans Approved', targetDate: new Date('2025-05-15'), statusPercent: 100, complete: true, actualDate: new Date('2025-05-10'), notes: '' },
-      { name: 'Contractor Appointed', targetDate: new Date('2025-07-15'), statusPercent: 50, complete: false, actualDate: null, notes: 'Paused - reviewing options' },
-      { name: 'Fit-out Commences', targetDate: new Date('2026-03-01'), statusPercent: 0, complete: false, actualDate: null, notes: 'On hold' },
-      { name: 'Fixtures & Displays Installed', targetDate: new Date('2026-05-15'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
-      { name: 'Showroom Launch', targetDate: new Date('2026-07-01'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
+      { name: 'Landlord Scope Complete', targetDate: new Date('2025-04-30'), statusPercent: 100, complete: true, actualDate: new Date('2025-04-15'), notes: 'Landlord finished his works' },
+      { name: 'Contractor Appointed', targetDate: new Date('2025-06-01'), statusPercent: 100, complete: true, actualDate: new Date('2025-05-20'), notes: '' },
+      { name: '1st Fix In Progress', targetDate: new Date('2026-01-15'), statusPercent: 40, complete: false, actualDate: null, notes: 'Current standstill - expected complete in 1.5 months' },
+      { name: '2nd Fix', targetDate: new Date('2026-03-01'), statusPercent: 0, complete: false, actualDate: null, notes: 'TBC - follows 1st fix' },
+      { name: 'Fixtures & Displays', targetDate: new Date('2026-05-01'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
+      { name: 'Showroom Launch', targetDate: new Date('2026-06-01'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
     ],
-    isPaused: true,
-    pauseReason: 'Project currently on hold',
+    isPaused: false,
+    pauseReason: '',
   };
 }
 
 export function getDefaultWarehouse(): ProjectData {
   return {
     location: 'UK Warehouse',
-    completionPercent: 36,
-    targetDate: new Date('2026-04-15'),
-    daysRemaining: getDaysRemaining(new Date('2026-04-15')),
+    completionPercent: 55,
+    targetDate: new Date('2026-01-31'),
+    daysRemaining: getDaysRemaining(new Date('2026-01-31')),
     milestones: [
       { name: 'Lease Agreement Signed', targetDate: new Date('2025-06-01'), statusPercent: 100, complete: true, actualDate: new Date('2025-05-28'), notes: '' },
       { name: 'Refurb Design Approved', targetDate: new Date('2025-09-01'), statusPercent: 100, complete: true, actualDate: new Date('2025-08-25'), notes: '' },
-      { name: 'Warehouse Refurb', targetDate: new Date('2026-01-15'), statusPercent: 15, complete: false, actualDate: null, notes: 'Started 4 Nov 2025 - landlord managing refurbishment (4 weeks in)' },
-      { name: 'Internal Fit-out Planning', targetDate: new Date('2026-02-15'), statusPercent: 0, complete: false, actualDate: null, notes: 'Racking layout design - begins as refurb nears completion' },
-      { name: 'Racking & Storage Installed', targetDate: new Date('2026-03-15'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
-      { name: 'Warehouse Operational', targetDate: new Date('2026-04-15'), statusPercent: 0, complete: false, actualDate: null, notes: '' },
+      { name: 'Warehouse Refurb', targetDate: new Date('2025-12-19'), statusPercent: 90, complete: false, actualDate: null, notes: 'Landlord refurb in progress - handover Dec 19th' },
+      { name: 'Landlord Handover', targetDate: new Date('2025-12-19'), statusPercent: 0, complete: false, actualDate: null, notes: 'Warehouse becomes operational' },
+      { name: 'Racking & Setup', targetDate: new Date('2026-01-15'), statusPercent: 0, complete: false, actualDate: null, notes: 'Internal setup after handover' },
+      { name: 'Warehouse Fully Operational', targetDate: new Date('2026-01-31'), statusPercent: 0, complete: false, actualDate: null, notes: 'All systems ready' },
     ],
-    notes: 'Refurbishment managed by landlord',
+    notes: 'Handover from landlord: Dec 19th, 2025',
     isPaused: false,
   };
 }
 
 export function getDefaultBudget(): BudgetData {
   const byCategory: CategorySpend[] = [
-    { category: 'Showroom Fit-out', budgeted: 65000, actual: 22000, forecast: 62000, variance: 43000, variancePercent: 66.15 },
-    { category: 'Warehouse Setup', budgeted: 40000, actual: 8000, forecast: 38000, variance: 32000, variancePercent: 80 },
-    { category: 'Initial Stock', budgeted: 75000, actual: 0, forecast: 75000, variance: 75000, variancePercent: 100 },
-    { category: 'Legal & Professional', budgeted: 15000, actual: 12500, forecast: 14000, variance: 2500, variancePercent: 16.67 },
-    { category: 'Marketing & Launch', budgeted: 25000, actual: 5000, forecast: 25000, variance: 20000, variancePercent: 80 },
-    { category: 'Technology & Systems', budgeted: 12000, actual: 6000, forecast: 11000, variance: 6000, variancePercent: 50 },
-    { category: 'Working Capital', budgeted: 18000, actual: 34000, forecast: 40000, variance: -16000, variancePercent: -88.89 },
+    { category: 'Warehouse - Rent Deposit (7 months)', budgeted: 179743, actual: 0, forecast: 179743, variance: 179743, variancePercent: 100 },
+    { category: 'Warehouse - Q1 Rent', budgeted: 38516, actual: 0, forecast: 38516, variance: 38516, variancePercent: 100 },
+    { category: 'Warehouse - Service Charge (Year)', budgeted: 48000, actual: 0, forecast: 48000, variance: 48000, variancePercent: 100 },
+    { category: 'Warehouse - Insurance (Annual)', budgeted: 4800, actual: 0, forecast: 4800, variance: 4800, variancePercent: 100 },
+    { category: 'Warehouse - Business Rates (Year)', budgeted: 60000, actual: 0, forecast: 60000, variance: 60000, variancePercent: 100 },
+    { category: 'Warehouse - Legal/Professional', budgeted: 13117, actual: 0, forecast: 13117, variance: 13117, variancePercent: 100 },
+    { category: 'Warehouse - Racking & Setup', budgeted: 25000, actual: 0, forecast: 25000, variance: 25000, variancePercent: 100 },
+    { category: 'Showroom - Total Completion', budgeted: 255000, actual: 0, forecast: 255000, variance: 255000, variancePercent: 100 },
   ];
   
   const budgetedTotal = byCategory.reduce((sum, c) => sum + c.budgeted, 0);
@@ -433,6 +438,80 @@ export function getDefaultBudget(): BudgetData {
     variancePercent: ((budgetedTotal - actualSpend) / budgetedTotal) * 100,
     forecast,
     byCategory,
+  };
+}
+
+export function getDefaultCashFlow(): CashFlowData {
+  return {
+    projections: [
+      {
+        month: 'Dec 2025',
+        outgoings: 253176,
+        details: [
+          { item: 'Legal/Professional Fees', amount: 13117 },
+          { item: 'Rent Deposit (7 months)', amount: 179743 },
+          { item: 'Q1 Rent', amount: 38516 },
+          { item: 'Service Charge (Q1)', amount: 12000 },
+          { item: 'Insurance (Annual)', amount: 4800 },
+          { item: 'Business Rates', amount: 5000 },
+        ],
+        closingBalance: 371824,
+      },
+      {
+        month: 'Jan 2026',
+        outgoings: 30000,
+        details: [
+          { item: 'Business Rates', amount: 5000 },
+          { item: 'Racking & Setup', amount: 25000 },
+        ],
+        closingBalance: 341824,
+      },
+      {
+        month: 'Feb 2026',
+        outgoings: 5000,
+        details: [
+          { item: 'Business Rates', amount: 5000 },
+        ],
+        closingBalance: 336824,
+      },
+      {
+        month: 'Mar 2026',
+        outgoings: 55516,
+        details: [
+          { item: 'Business Rates', amount: 5000 },
+          { item: 'Q2 Rent', amount: 38516 },
+          { item: 'Service Charge (Q2)', amount: 12000 },
+        ],
+        closingBalance: 281308,
+      },
+      {
+        month: 'Apr 2026',
+        outgoings: 5000,
+        details: [
+          { item: 'Business Rates', amount: 5000 },
+        ],
+        closingBalance: 276308,
+      },
+      {
+        month: 'May 2026',
+        outgoings: 5000,
+        details: [
+          { item: 'Business Rates', amount: 5000 },
+        ],
+        closingBalance: 271308,
+      },
+      {
+        month: 'Jun 2026',
+        outgoings: 55516,
+        details: [
+          { item: 'Business Rates', amount: 5000 },
+          { item: 'Q3 Rent', amount: 38516 },
+          { item: 'Service Charge (Q3)', amount: 12000 },
+        ],
+        closingBalance: 215792,
+      },
+    ],
+    burnRate: 17000,
   };
 }
 
@@ -562,6 +641,7 @@ export function getDefaultDashboardData(): DashboardData {
     operational: getDefaultOperational(),
     financial: getDefaultFinancial(),
     risks: getDefaultRisks(),
+    cashFlow: getDefaultCashFlow(),
     lastUpdated: new Date(),
   };
 }

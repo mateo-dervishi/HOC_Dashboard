@@ -95,6 +95,18 @@ export interface RisksData {
   items: Risk[];
 }
 
+export interface MonthlyOutgoing {
+  month: string;
+  outgoings: number;
+  details: { item: string; amount: number }[];
+  closingBalance: number;
+}
+
+export interface CashFlowData {
+  projections: MonthlyOutgoing[];
+  burnRate: number;
+}
+
 export interface DashboardData {
   capital: CapitalData;
   showroom: ProjectData;
@@ -103,6 +115,7 @@ export interface DashboardData {
   operational: OperationalData;
   financial: FinancialData;
   risks: RisksData;
+  cashFlow: CashFlowData;
   lastUpdated: Date;
 }
 

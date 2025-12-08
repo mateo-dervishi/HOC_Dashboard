@@ -9,6 +9,7 @@ import {
   OperationalReadiness,
   FinancialOutlook,
   RisksPanel,
+  CashFlowPanel,
   FileUpload,
 } from '@/components';
 import { DashboardData } from '@/lib/types';
@@ -184,20 +185,30 @@ export default function Dashboard() {
             <MilestoneTimeline showroom={data.showroom} warehouse={data.warehouse} />
           </div>
 
-          {/* Row 2: Budget (8 cols) + Operational (4 cols) */}
-          <div className="col-span-12 lg:col-span-8">
-            <BudgetActual data={data.budget} />
-          </div>
-          <div className="col-span-12 lg:col-span-4">
-            <OperationalReadiness data={data.operational} />
+          {/* Row 2: Cash Flow (full width) */}
+          <div className="col-span-12">
+            <CashFlowPanel 
+              capitalRaised={data.capital.totalRaised}
+              capitalDeployed={data.capital.deployed}
+              projections={data.cashFlow.projections}
+              burnRate={data.cashFlow.burnRate}
+            />
           </div>
 
-          {/* Row 3: Financial (6 cols) + Risks (6 cols) */}
+          {/* Row 3: Budget (6 cols) + Risks (6 cols) */}
           <div className="col-span-12 lg:col-span-6">
-            <FinancialOutlook data={data.financial} />
+            <BudgetActual data={data.budget} />
           </div>
           <div className="col-span-12 lg:col-span-6">
             <RisksPanel data={data.risks} />
+          </div>
+
+          {/* Row 4: Financial (8 cols) + Operational (4 cols) */}
+          <div className="col-span-12 lg:col-span-8">
+            <FinancialOutlook data={data.financial} />
+          </div>
+          <div className="col-span-12 lg:col-span-4">
+            <OperationalReadiness data={data.operational} />
           </div>
         </div>
 

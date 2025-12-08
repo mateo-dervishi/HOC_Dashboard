@@ -16,15 +16,16 @@ const workbook = XLSX.utils.book_new();
 // ============================================
 const capitalData = [
   ['Metric', 'Value', 'Notes'],
-  ['Total Capital Raised', 250000, 'Seed round from angel investors'],
-  ['Capital Deployed', 87500, 'As of current date'],
-  ['Capital Remaining', 162500, 'Available for deployment'],
-  ['Monthly Burn Rate', 12500, 'Average monthly expenditure'],
-  ['Runway (Months)', 13, 'Calculated from remaining/burn rate'],
-  ['Next Major Expense', 75000, 'First Stock Order - China Suppliers'],
+  ['Total Capital Raised', 625000, 'Total investment secured'],
+  ['Capital Deployed', 0, 'No payments made yet - awaiting landlord handover'],
+  ['Capital Remaining', 625000, 'Full amount available'],
+  ['Monthly Burn Rate', 17000, 'Estimated ongoing monthly costs after initial setup'],
+  ['Runway (Months)', 36, 'Calculated from remaining/burn rate'],
+  ['Next Major Expense', 245176, 'Due on landlord handover (Dec 19th)'],
+  ['Next Expense Description', 'Warehouse Initial Payment', 'Rent deposit, Q1 rent, service charge, insurance, business rates, legal'],
 ];
 const capitalSheet = XLSX.utils.aoa_to_sheet(capitalData);
-capitalSheet['!cols'] = [{ wch: 25 }, { wch: 15 }, { wch: 40 }];
+capitalSheet['!cols'] = [{ wch: 25 }, { wch: 15 }, { wch: 55 }];
 XLSX.utils.book_append_sheet(workbook, capitalSheet, 'Capital_Investment');
 
 // ============================================
@@ -32,16 +33,18 @@ XLSX.utils.book_append_sheet(workbook, capitalSheet, 'Capital_Investment');
 // ============================================
 const costsData = [
   ['Category', 'Budgeted', 'Actual', 'Forecast', 'Notes'],
-  ['Showroom Fit-out', 65000, 22000, 62000, 'Design and construction'],
-  ['Warehouse Setup', 40000, 8000, 38000, 'Racking, systems, initial setup'],
-  ['Initial Stock', 75000, 0, 75000, 'First order from China suppliers'],
-  ['Legal & Professional', 15000, 12500, 14000, 'Company formation, contracts, accounting'],
-  ['Marketing & Launch', 25000, 5000, 25000, 'Brand, website, launch campaign'],
-  ['Technology & Systems', 12000, 6000, 11000, 'POS, inventory, website'],
-  ['Working Capital', 18000, 34000, 40000, 'Operating expenses, contingency'],
+  ['Warehouse - Rent Deposit (7 months)', 179743, 0, 179743, '£128,388 + VAT - Due Dec 19th'],
+  ['Warehouse - Q1 Rent', 38516, 0, 38516, '£32,097 + VAT - Due Dec 19th'],
+  ['Warehouse - Service Charge (Quarterly)', 12000, 0, 48000, '£12,000 per quarter'],
+  ['Warehouse - Insurance (Annual)', 4800, 0, 4800, 'Yearly upfront - Due Dec 19th'],
+  ['Warehouse - Business Rates (Monthly)', 5000, 0, 60000, '£5,000 per month'],
+  ['Warehouse - Legal/Professional', 13117, 0, 13117, '£10,930.5 + VAT - Due Dec 19th'],
+  ['Warehouse - Racking & Setup', 25000, 0, 25000, 'Post-handover setup'],
+  ['Showroom - Total Completion', 255000, 0, 255000, 'Estimate to complete showroom'],
+  ['Working Capital', 50000, 0, 50000, 'Operating expenses reserve'],
 ];
 const costsSheet = XLSX.utils.aoa_to_sheet(costsData);
-costsSheet['!cols'] = [{ wch: 22 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 40 }];
+costsSheet['!cols'] = [{ wch: 35 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 45 }];
 XLSX.utils.book_append_sheet(workbook, costsSheet, 'Costs_Tracker');
 
 // ============================================
@@ -49,15 +52,16 @@ XLSX.utils.book_append_sheet(workbook, costsSheet, 'Costs_Tracker');
 // ============================================
 const showroomData = [
   ['Milestone', 'Target Date', 'Status %', 'Complete', 'Actual Date', 'Notes'],
-  ['Lease Agreement Signed', '2025-03-01', 100, 'Yes', '2025-02-25', 'Completed ahead of schedule'],
-  ['Design Plans Approved', '2025-05-15', 100, 'Yes', '2025-05-10', 'Final designs signed off'],
-  ['Contractor Appointed', '2025-07-15', 50, 'No', '', 'Paused - reviewing options'],
-  ['Fit-out Commences', '2026-03-01', 0, 'No', '', 'On hold'],
-  ['Fixtures & Displays Installed', '2026-05-15', 0, 'No', '', 'Custom displays to be ordered'],
-  ['Showroom Launch', '2026-07-01', 0, 'No', '', 'Revised target date'],
+  ['Lease Agreement Signed', '2025-03-01', 100, 'Yes', '2025-02-25', 'Completed'],
+  ['Landlord Scope Complete', '2025-04-30', 100, 'Yes', '2025-04-15', 'Landlord finished his works'],
+  ['Contractor Appointed', '2025-06-01', 100, 'Yes', '2025-05-20', 'Contractor selected and appointed'],
+  ['1st Fix In Progress', '2026-01-15', 40, 'No', '', 'Currently on standstill - expected complete in 1.5 months'],
+  ['2nd Fix', '2026-03-01', 0, 'No', '', 'TBC - follows 1st fix completion'],
+  ['Fixtures & Displays', '2026-05-01', 0, 'No', '', 'Final installations'],
+  ['Showroom Launch', '2026-06-01', 0, 'No', '', 'Target opening date'],
 ];
 const showroomSheet = XLSX.utils.aoa_to_sheet(showroomData);
-showroomSheet['!cols'] = [{ wch: 28 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 30 }];
+showroomSheet['!cols'] = [{ wch: 25 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 50 }];
 XLSX.utils.book_append_sheet(workbook, showroomSheet, 'Showroom_Progress');
 
 // ============================================
@@ -67,13 +71,13 @@ const warehouseData = [
   ['Milestone', 'Target Date', 'Status %', 'Complete', 'Actual Date', 'Notes'],
   ['Lease Agreement Signed', '2025-06-01', 100, 'Yes', '2025-05-28', 'Long-term lease secured'],
   ['Refurb Design Approved', '2025-09-01', 100, 'Yes', '2025-08-25', 'Specifications agreed'],
-  ['Warehouse Refurb', '2026-01-15', 15, 'No', '', 'Started 4 Nov 2025 - landlord managing refurbishment (4 weeks in)'],
-  ['Internal Fit-out Planning', '2026-02-15', 0, 'No', '', 'Racking layout design - begins as refurb nears completion'],
-  ['Racking & Storage Installed', '2026-03-15', 0, 'No', '', 'Industrial racking system'],
-  ['Warehouse Operational', '2026-04-15', 0, 'No', '', 'Target go-live date'],
+  ['Warehouse Refurb', '2025-12-19', 90, 'No', '', 'Landlord refurb in progress - handover Dec 19th'],
+  ['Landlord Handover', '2025-12-19', 0, 'No', '', 'Warehouse becomes operational'],
+  ['Racking & Setup', '2026-01-15', 0, 'No', '', 'Internal setup after handover'],
+  ['Warehouse Fully Operational', '2026-01-31', 0, 'No', '', 'All systems ready'],
 ];
 const warehouseSheet = XLSX.utils.aoa_to_sheet(warehouseData);
-warehouseSheet['!cols'] = [{ wch: 30 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 30 }];
+warehouseSheet['!cols'] = [{ wch: 28 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 45 }];
 XLSX.utils.book_append_sheet(workbook, warehouseSheet, 'Warehouse_Progress');
 
 // ============================================
@@ -119,31 +123,55 @@ XLSX.utils.book_append_sheet(workbook, financialSheet, 'Financial_Projections');
 // ============================================
 const risksData = [
   ['Risk ID', 'Risk Name', 'RAG', 'Description', 'Mitigation', 'Status', 'Owner', 'Is Blocker', 'Pending Decision'],
-  ['R001', 'Supplier Lead Times', 'Amber', 'Chinese New Year may impact initial stock delivery timeline', 'Planning stock order 6 weeks before CNY. Multiple supplier relationships.', 'Open', 'Operations', 'No', 'No'],
-  ['R002', 'Warehouse Refurb Delay', 'Amber', 'Landlord refurbishment timeline dependent on contractor availability', 'Weekly progress calls with landlord. Contingency storage identified.', 'Open', 'Operations', 'No', 'No'],
-  ['R003', 'Import Duties Post-Brexit', 'Green', 'Potential changes to UK import regulations', 'Working with customs broker. Duty calculations built into pricing model.', 'Open', 'Finance', 'No', 'No'],
-  ['R004', 'Showroom Contractor Selection', 'Amber', 'Final contractor decision pending - 3 quotes received', 'Expediting final meetings. Budget allows for preferred contractor.', 'Open', 'Project Lead', 'No', 'Yes'],
-  ['R005', 'Currency Fluctuation', 'Amber', 'GBP/CNY exchange rate volatility affects stock costs', 'Building 5% currency buffer into pricing. Considering forward contracts.', 'Open', 'Finance', 'No', 'No'],
-  ['R006', 'Staff Recruitment', 'Green', 'Need to hire showroom manager and warehouse staff', 'Recruitment to begin Q1 2025. Job specs prepared.', 'Open', 'HR', 'No', 'No'],
+  ['R001', 'Showroom 1st Fix Delay', 'Amber', 'Current standstill on 1st fix works', 'Monitoring closely - expected to resume shortly', 'Open', 'Project Lead', 'No', 'No'],
+  ['R002', 'Warehouse Handover Timing', 'Green', 'Landlord confirmed Dec 19th handover', 'Date confirmed - preparing for handover', 'Open', 'Operations', 'No', 'No'],
+  ['R003', 'Supplier Lead Times', 'Amber', 'Chinese New Year may impact initial stock delivery', 'Planning stock order ahead of CNY', 'Open', 'Operations', 'No', 'No'],
+  ['R004', 'Currency Fluctuation', 'Amber', 'GBP/CNY exchange rate volatility', 'Building 5% currency buffer into pricing', 'Open', 'Finance', 'No', 'No'],
+  ['R005', 'Cash Flow Management', 'Green', 'Large initial payment due Dec 19th', 'Capital secured and available', 'Open', 'Finance', 'No', 'No'],
+  ['R006', 'Staff Recruitment', 'Green', 'Need to hire warehouse and showroom staff', 'Recruitment to begin Q1 2026', 'Open', 'HR', 'No', 'No'],
 ];
 const risksSheet = XLSX.utils.aoa_to_sheet(risksData);
 risksSheet['!cols'] = [
   { wch: 8 }, { wch: 25 }, { wch: 8 }, { wch: 45 }, 
-  { wch: 50 }, { wch: 8 }, { wch: 12 }, { wch: 10 }, { wch: 16 }
+  { wch: 45 }, { wch: 8 }, { wch: 12 }, { wch: 10 }, { wch: 16 }
 ];
 XLSX.utils.book_append_sheet(workbook, risksSheet, 'Risks_Issues');
 
 // ============================================
-// Sheet 8: Settings (for metadata)
+// Sheet 8: Monthly_Cashflow
+// ============================================
+const cashflowData = [
+  ['Month', 'Item', 'Amount', 'Running Balance', 'Notes'],
+  ['Opening', 'Capital Raised', 625000, 625000, 'Starting balance'],
+  ['Dec 2025', 'Legal/Professional Fees', -13117, 611883, '£10,930.5 + VAT'],
+  ['Dec 2025', 'Rent Deposit (7 months)', -179743, 432140, '£128,388 + VAT'],
+  ['Dec 2025', 'Q1 Rent', -38516, 393624, '£32,097 + VAT'],
+  ['Dec 2025', 'Service Charge (Q1)', -12000, 381624, 'Quarterly payment'],
+  ['Dec 2025', 'Insurance (Annual)', -4800, 376824, 'Yearly upfront'],
+  ['Dec 2025', 'Business Rates', -5000, 371824, 'Monthly payment'],
+  ['Jan 2026', 'Business Rates', -5000, 366824, 'Monthly payment'],
+  ['Jan 2026', 'Racking & Setup', -25000, 341824, 'Warehouse internal setup'],
+  ['Feb 2026', 'Business Rates', -5000, 336824, 'Monthly payment'],
+  ['Mar 2026', 'Business Rates', -5000, 331824, 'Monthly payment'],
+  ['Mar 2026', 'Q2 Rent', -38516, 293308, 'Quarterly rent'],
+  ['Mar 2026', 'Service Charge (Q2)', -12000, 281308, 'Quarterly payment'],
+];
+const cashflowSheet = XLSX.utils.aoa_to_sheet(cashflowData);
+cashflowSheet['!cols'] = [{ wch: 12 }, { wch: 25 }, { wch: 12 }, { wch: 15 }, { wch: 25 }];
+XLSX.utils.book_append_sheet(workbook, cashflowSheet, 'Monthly_Cashflow');
+
+// ============================================
+// Sheet 9: Settings (for metadata)
 // ============================================
 const settingsData = [
   ['Setting', 'Value', 'Notes'],
   ['Showroom Location', 'London Showroom', 'Display name'],
-  ['Showroom Target Date', '2026-07-01', 'Target completion'],
-  ['Showroom Paused', 'Yes', 'Project currently on hold'],
+  ['Showroom Target Date', '2026-06-01', 'Target completion'],
+  ['Showroom Paused', 'No', 'Active - 1st fix in progress'],
   ['Warehouse Location', 'UK Warehouse', 'Display name'],
-  ['Warehouse Target Date', '2026-04-15', 'Target completion'],
+  ['Warehouse Target Date', '2026-01-31', 'Target fully operational'],
   ['Warehouse Paused', 'No', ''],
+  ['Warehouse Handover Date', '2025-12-19', 'Landlord handover date'],
   ['Gross Margin Target', 45, 'Percentage'],
   ['B2B Split', 60, 'Percentage of revenue'],
   ['B2C Split', 40, 'Percentage of revenue'],
@@ -153,7 +181,7 @@ const settingsData = [
   ['Inventory System Status', 'Planned', 'Options: Not Started, In Development, Live, Planned'],
 ];
 const settingsSheet = XLSX.utils.aoa_to_sheet(settingsData);
-settingsSheet['!cols'] = [{ wch: 25 }, { wch: 20 }, { wch: 40 }];
+settingsSheet['!cols'] = [{ wch: 25 }, { wch: 20 }, { wch: 45 }];
 XLSX.utils.book_append_sheet(workbook, settingsSheet, 'Settings');
 
 // Write the workbook to file
@@ -171,11 +199,11 @@ console.log('   4. Warehouse_Progress - Warehouse milestones');
 console.log('   5. Suppliers - Supplier list and status');
 console.log('   6. Financial_Projections - Monthly revenue targets');
 console.log('   7. Risks_Issues - Risk register');
-console.log('   8. Settings - Dashboard configuration');
+console.log('   8. Monthly_Cashflow - Monthly cash flow projections');
+console.log('   9. Settings - Dashboard configuration');
 console.log('');
 console.log('📝 To update dashboard data:');
 console.log('   1. Open the Excel file');
 console.log('   2. Edit the values in each sheet');
 console.log('   3. Save the file');
 console.log('   4. Refresh the dashboard (or wait for auto-refresh)');
-
