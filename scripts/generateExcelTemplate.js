@@ -33,15 +33,13 @@ XLSX.utils.book_append_sheet(workbook, capitalSheet, 'Capital_Investment');
 // ============================================
 const costsData = [
   ['Category', 'Budgeted', 'Actual', 'Forecast', 'Notes'],
-  ['Warehouse - Rent Deposit (7 months)', 179743, 0, 179743, '£128,388 + VAT - Due Dec 19th'],
-  ['Warehouse - Q1 Rent', 38516, 0, 38516, '£32,097 + VAT - Due Dec 19th'],
-  ['Warehouse - Service Charge (Quarterly)', 12000, 0, 48000, '£12,000 per quarter'],
-  ['Warehouse - Insurance (Annual)', 4800, 0, 4800, 'Yearly upfront - Due Dec 19th'],
-  ['Warehouse - Business Rates (Monthly)', 5000, 0, 60000, '£5,000 per month'],
-  ['Warehouse - Legal/Professional', 13117, 0, 13117, '£10,930.5 + VAT - Due Dec 19th'],
-  ['Warehouse - Racking & Setup', 25000, 0, 25000, 'Post-handover setup'],
+  ['Warehouse - Rent Deposit (7 months)', 154065.60, 0, 154065.60, '£128,388 + VAT (£25,677.60) - Due Dec 19th'],
+  ['Warehouse - Q1 Rent', 38516.40, 0, 38516.40, '£32,097 + VAT (£6,419.40) - Due Dec 19th'],
+  ['Warehouse - Service Charge (Quarterly)', 12000, 0, 48000, '£12,000 per quarter - No VAT'],
+  ['Warehouse - Insurance (Annual)', 4800, 0, 4800, 'Yearly upfront - VAT exempt - Due Dec 19th'],
+  ['Warehouse - Business Rates (Monthly)', 5000, 0, 60000, '£5,000 per month - No VAT'],
+  ['Warehouse - Legal/Professional', 13116.60, 0, 13116.60, '£10,930.50 + VAT (£2,186.10) - Due Dec 19th'],
   ['Showroom - Total Completion', 255000, 0, 255000, 'Estimate to complete showroom'],
-  ['Working Capital', 50000, 0, 50000, 'Operating expenses reserve'],
 ];
 const costsSheet = XLSX.utils.aoa_to_sheet(costsData);
 costsSheet['!cols'] = [{ wch: 35 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 45 }];
@@ -148,19 +146,17 @@ const cashflowData = [
   ['Dec 2025', 'Q1 Rent', 32097, 6419.40, 38516.40, 'Yes', 419301.40, 'Quarter 1 rent payment'],
   ['Dec 2025', 'Service Charge (Q1)', 12000, 0, 12000, 'No', 407301.40, 'Quarterly service charge - exempt'],
   ['Dec 2025', 'Insurance (Annual)', 4800, 0, 4800, 'No', 402501.40, 'Annual insurance - exempt'],
-  ['Dec 2025', 'Business Rates (Dec)', 5000, 0, 5000, 'No', 397501.40, 'Monthly - no VAT on rates'],
-  ['Jan 2026', 'Business Rates', 5000, 0, 5000, 'No', 392501.40, 'Monthly payment'],
-  ['Jan 2026', 'Racking & Setup', 20833.33, 4166.67, 25000, 'Yes', 367501.40, 'Warehouse racking installation'],
-  ['Jan 2026', 'Warehouse Equipment', 4166.67, 833.33, 5000, 'Yes', 362501.40, 'Initial equipment'],
-  ['Feb 2026', 'Business Rates', 5000, 0, 5000, 'No', 357501.40, 'Monthly payment'],
-  ['Mar 2026', 'Business Rates', 5000, 0, 5000, 'No', 352501.40, 'Monthly payment'],
-  ['Mar 2026', 'Q2 Rent', 32097, 6419.40, 38516.40, 'Yes', 313985, 'Quarter 2 rent payment'],
-  ['Mar 2026', 'Service Charge (Q2)', 12000, 0, 12000, 'No', 301985, 'Quarterly service charge'],
-  ['Apr 2026', 'Business Rates', 5000, 0, 5000, 'No', 296985, 'Monthly payment'],
-  ['May 2026', 'Business Rates', 5000, 0, 5000, 'No', 291985, 'Monthly payment'],
-  ['Jun 2026', 'Business Rates', 5000, 0, 5000, 'No', 286985, 'Monthly payment'],
-  ['Jun 2026', 'Q3 Rent', 32097, 6419.40, 38516.40, 'Yes', 248468.60, 'Quarter 3 rent payment'],
-  ['Jun 2026', 'Service Charge (Q3)', 12000, 0, 12000, 'No', 236468.60, 'Quarterly service charge'],
+  ['Dec 2025', 'Business Rates', 5000, 0, 5000, 'No', 371824, 'Monthly - no VAT on rates'],
+  ['Jan 2026', 'Business Rates', 5000, 0, 5000, 'No', 366824, 'Monthly payment'],
+  ['Feb 2026', 'Business Rates', 5000, 0, 5000, 'No', 361824, 'Monthly payment'],
+  ['Mar 2026', 'Business Rates', 5000, 0, 5000, 'No', 356824, 'Monthly payment'],
+  ['Mar 2026', 'Q2 Rent', 32097, 6419.40, 38516.40, 'Yes', 318307.60, 'Quarter 2 rent payment'],
+  ['Mar 2026', 'Service Charge (Q2)', 12000, 0, 12000, 'No', 306307.60, 'Quarterly service charge'],
+  ['Apr 2026', 'Business Rates', 5000, 0, 5000, 'No', 301307.60, 'Monthly payment'],
+  ['May 2026', 'Business Rates', 5000, 0, 5000, 'No', 296307.60, 'Monthly payment'],
+  ['Jun 2026', 'Business Rates', 5000, 0, 5000, 'No', 291307.60, 'Monthly payment'],
+  ['Jun 2026', 'Q3 Rent', 32097, 6419.40, 38516.40, 'Yes', 252791.20, 'Quarter 3 rent payment'],
+  ['Jun 2026', 'Service Charge (Q3)', 12000, 0, 12000, 'No', 240791.20, 'Quarterly service charge'],
 ];
 const cashflowSheet = XLSX.utils.aoa_to_sheet(cashflowData);
 cashflowSheet['!cols'] = [{ wch: 12 }, { wch: 25 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 15 }, { wch: 30 }];
