@@ -19,8 +19,9 @@ const capitalData = [
   ['Total Capital Raised', 625000, 'Total investment secured'],
   ['Capital Deployed', 0, 'No payments made yet - awaiting landlord handover'],
   ['Capital Remaining', 625000, 'Full amount available'],
-  ['Monthly Burn Rate', 19239, 'Average monthly costs (rent, service charge, insurance, business rates)'],
-  ['Runway (Months)', 32, 'Calculated from remaining/burn rate'],
+  ['Monthly Burn Rate (2026)', 19239, '2026 average (50% reduced rent): £5k rates + £12.8k rent + £1k service + £0.4k insurance'],
+  ['Monthly Burn Rate (2027+)', 32078, '2027+ average (full rent): £5k rates + £25.7k rent + £1k service + £0.4k insurance'],
+  ['Runway (Months)', 17, 'Until ~May 2027 (12 months 2026 + ~5 months 2027)'],
   ['Next Major Expense', 244176.20, 'Due on landlord handover (Dec 19th)'],
   ['Next Expense Description', 'December 2025 Total', 'Rent deposit (7mo @ full rate), Q1 rent (50% rate), service charge, insurance, business rates, legal'],
 ];

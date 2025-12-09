@@ -368,7 +368,7 @@ export function getDefaultCapital(): CapitalData {
     deployedPercent: 0,
     remaining: 625000,
     burnRate: 19239,
-    runwayMonths: 32,
+    runwayMonths: 17,
     nextMajorExpense: {
       description: 'Due on landlord handover (Dec 19th)',
       amount: 244176.20,
