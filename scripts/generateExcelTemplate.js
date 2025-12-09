@@ -21,8 +21,8 @@ const capitalData = [
   ['Capital Remaining', 625000, 'Full amount available'],
   ['Monthly Burn Rate', 19239, 'Average monthly costs (rent, service charge, insurance, business rates)'],
   ['Runway (Months)', 32, 'Calculated from remaining/burn rate'],
-  ['Next Major Expense', 218498.60, 'Due on landlord handover (Dec 19th)'],
-  ['Next Expense Description', 'December 2025 Total', 'Rent deposit, Q1 rent, service charge, insurance, business rates, legal'],
+  ['Next Major Expense', 244176.20, 'Due on landlord handover (Dec 19th)'],
+  ['Next Expense Description', 'December 2025 Total', 'Rent deposit (7mo @ full rate), Q1 rent (50% rate), service charge, insurance, business rates, legal'],
 ];
 const capitalSheet = XLSX.utils.aoa_to_sheet(capitalData);
 capitalSheet['!cols'] = [{ wch: 25 }, { wch: 15 }, { wch: 55 }];
@@ -33,8 +33,8 @@ XLSX.utils.book_append_sheet(workbook, capitalSheet, 'Capital_Investment');
 // ============================================
 const costsData = [
   ['Category', 'Budgeted', 'Actual', 'Forecast', 'Notes'],
-  ['Warehouse - Rent Deposit (7 months)', 154065.60, 0, 154065.60, '£128,388 + VAT (£25,677.60) - Due Dec 19th'],
-  ['Warehouse - Q1 Rent', 38516.40, 0, 38516.40, '£32,097 + VAT (£6,419.40) - Due Dec 19th'],
+  ['Warehouse - Rent Deposit (7 months @ full rate)', 179743.20, 0, 179743.20, '£149,786 + VAT (£29,957.20) - Based on full rate £21,398/mo'],
+  ['Warehouse - Q1 Rent (50% reduced rate)', 38516.40, 0, 38516.40, '£32,097 + VAT (£6,419.40) - 2026 rate: £10,699/mo'],
   ['Warehouse - Service Charge (Quarterly)', 3000, 0, 12000, '£12,000 per year = £3,000 per quarter - No VAT'],
   ['Warehouse - Insurance (Annual)', 4800, 0, 4800, 'Yearly upfront - VAT exempt - Due Dec 19th'],
   ['Warehouse - Business Rates (Monthly)', 5000, 0, 60000, '£5,000 per month - No VAT'],
@@ -140,21 +140,21 @@ const cashflowData = [
   ['Month', 'Item', 'Net Amount', 'VAT (20%)', 'Gross Amount', 'VAT Reclaimable', 'Running Balance', 'Notes'],
   ['Opening', 'Capital Raised', 625000, 0, 625000, 'N/A', 625000, 'Starting balance'],
   ['Dec 2025', 'Legal/Professional Fees', 10930.50, 2186.10, 13116.60, 'Yes', 611883.40, 'Legal and professional fees'],
-  ['Dec 2025', 'Rent Deposit (7 months)', 128388, 25677.60, 154065.60, 'Yes', 457817.80, '7 months deposit'],
-  ['Dec 2025', 'Q1 Rent', 32097, 6419.40, 38516.40, 'Yes', 419301.40, 'Quarter 1 rent payment'],
-  ['Dec 2025', 'Service Charge (Q1)', 3000, 0, 3000, 'No', 416301.40, '£12k/year = £3k/quarter'],
-  ['Dec 2025', 'Insurance (Annual)', 4800, 0, 4800, 'No', 411501.40, 'Annual insurance - exempt'],
-  ['Dec 2025', 'Business Rates', 5000, 0, 5000, 'No', 406501.40, 'Monthly - no VAT on rates'],
-  ['Jan 2026', 'Business Rates', 5000, 0, 5000, 'No', 401501.40, 'Monthly payment'],
-  ['Feb 2026', 'Business Rates', 5000, 0, 5000, 'No', 396501.40, 'Monthly payment'],
-  ['Mar 2026', 'Business Rates', 5000, 0, 5000, 'No', 391501.40, 'Monthly payment'],
-  ['Mar 2026', 'Q2 Rent', 32097, 6419.40, 38516.40, 'Yes', 352985, 'Quarter 2 rent payment'],
-  ['Mar 2026', 'Service Charge (Q2)', 3000, 0, 3000, 'No', 349985, '£12k/year = £3k/quarter'],
-  ['Apr 2026', 'Business Rates', 5000, 0, 5000, 'No', 344985, 'Monthly payment'],
-  ['May 2026', 'Business Rates', 5000, 0, 5000, 'No', 339985, 'Monthly payment'],
-  ['Jun 2026', 'Business Rates', 5000, 0, 5000, 'No', 334985, 'Monthly payment'],
-  ['Jun 2026', 'Q3 Rent', 32097, 6419.40, 38516.40, 'Yes', 296468.60, 'Quarter 3 rent payment'],
-  ['Jun 2026', 'Service Charge (Q3)', 3000, 0, 3000, 'No', 293468.60, '£12k/year = £3k/quarter'],
+  ['Dec 2025', 'Rent Deposit (7mo @ full rate)', 149786, 29957.20, 179743.20, 'Yes', 432140.20, '7 months @ £21,398/mo (2027 rate)'],
+  ['Dec 2025', 'Q1 Rent (50% reduced)', 32097, 6419.40, 38516.40, 'Yes', 393623.80, '2026 rate: £10,699/mo'],
+  ['Dec 2025', 'Service Charge (Q1)', 3000, 0, 3000, 'No', 390623.80, '£12k/year = £3k/quarter'],
+  ['Dec 2025', 'Insurance (Annual)', 4800, 0, 4800, 'No', 385823.80, 'Annual insurance - exempt'],
+  ['Dec 2025', 'Business Rates', 5000, 0, 5000, 'No', 380823.80, 'Monthly - no VAT on rates'],
+  ['Jan 2026', 'Business Rates', 5000, 0, 5000, 'No', 375823.80, 'Monthly payment'],
+  ['Feb 2026', 'Business Rates', 5000, 0, 5000, 'No', 370823.80, 'Monthly payment'],
+  ['Mar 2026', 'Business Rates', 5000, 0, 5000, 'No', 365823.80, 'Monthly payment'],
+  ['Mar 2026', 'Q2 Rent (50% reduced)', 32097, 6419.40, 38516.40, 'Yes', 327307.40, '2026 rate: £10,699/mo'],
+  ['Mar 2026', 'Service Charge (Q2)', 3000, 0, 3000, 'No', 324307.40, '£12k/year = £3k/quarter'],
+  ['Apr 2026', 'Business Rates', 5000, 0, 5000, 'No', 319307.40, 'Monthly payment'],
+  ['May 2026', 'Business Rates', 5000, 0, 5000, 'No', 314307.40, 'Monthly payment'],
+  ['Jun 2026', 'Business Rates', 5000, 0, 5000, 'No', 309307.40, 'Monthly payment'],
+  ['Jun 2026', 'Q3 Rent (50% reduced)', 32097, 6419.40, 38516.40, 'Yes', 270791, '2026 rate: £10,699/mo'],
+  ['Jun 2026', 'Service Charge (Q3)', 3000, 0, 3000, 'No', 267791, '£12k/year = £3k/quarter'],
 ];
 const cashflowSheet = XLSX.utils.aoa_to_sheet(cashflowData);
 cashflowSheet['!cols'] = [{ wch: 12 }, { wch: 25 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 15 }, { wch: 30 }];

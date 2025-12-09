@@ -371,7 +371,7 @@ export function getDefaultCapital(): CapitalData {
     runwayMonths: 32,
     nextMajorExpense: {
       description: 'Due on landlord handover (Dec 19th)',
-      amount: 218498.60,
+      amount: 244176.20,
     },
   };
 }
@@ -442,32 +442,37 @@ export function getDefaultBudget(): BudgetData {
 }
 
 export function getDefaultCashFlow(): CashFlowData {
+  // RENT STRUCTURE:
+  // 2026 (50% reduced rate): £10,699/month + VAT = £12,838.80/month, £32,097/quarter + VAT = £38,516.40
+  // 2027+ (full rate): £21,398/month + VAT = £25,677.60/month
+  // 7 months deposit (based on full rate): £149,786 + VAT = £179,743.20
   // Service charge: £12,000/year = £3,000/quarter
+  
   // Starting balance: £625,000
-  // Dec outgoings: £218,498.60 → Closing: £406,501.40
-  // Jan outgoings: £5,000 → Closing: £401,501.40
-  // Feb outgoings: £5,000 → Closing: £396,501.40
-  // Mar outgoings: £46,516.40 → Closing: £349,985
-  // Apr outgoings: £5,000 → Closing: £344,985
-  // May outgoings: £5,000 → Closing: £339,985
-  // Jun outgoings: £46,516.40 → Closing: £293,468.60
+  // Dec outgoings: £244,176.20 → Closing: £380,823.80
+  // Jan outgoings: £5,000 → Closing: £375,823.80
+  // Feb outgoings: £5,000 → Closing: £370,823.80
+  // Mar outgoings: £46,516.40 → Closing: £324,307.40
+  // Apr outgoings: £5,000 → Closing: £319,307.40
+  // May outgoings: £5,000 → Closing: £314,307.40
+  // Jun outgoings: £46,516.40 → Closing: £267,791
   
   return {
     projections: [
       {
         month: 'Dec 2025',
-        outgoings: 218498.60,
-        netTotal: 184215.50,
-        vatTotal: 34283.10,
+        outgoings: 244176.20,
+        netTotal: 205613.50,
+        vatTotal: 38562.70,
         details: [
           { item: 'Legal/Professional Fees', net: 10930.50, vat: 2186.10, gross: 13116.60, vatReclaimable: true },
-          { item: 'Rent Deposit (7 months)', net: 128388, vat: 25677.60, gross: 154065.60, vatReclaimable: true },
-          { item: 'Q1 Rent', net: 32097, vat: 6419.40, gross: 38516.40, vatReclaimable: true },
+          { item: 'Rent Deposit (7 months @ full rate)', net: 149786, vat: 29957.20, gross: 179743.20, vatReclaimable: true },
+          { item: 'Q1 Rent (50% reduced rate)', net: 32097, vat: 6419.40, gross: 38516.40, vatReclaimable: true },
           { item: 'Service Charge (Q1)', net: 3000, vat: 0, gross: 3000, vatReclaimable: false },
           { item: 'Insurance (Annual)', net: 4800, vat: 0, gross: 4800, vatReclaimable: false },
           { item: 'Business Rates', net: 5000, vat: 0, gross: 5000, vatReclaimable: false },
         ],
-        closingBalance: 406501.40,
+        closingBalance: 380823.80,
       },
       {
         month: 'Jan 2026',
@@ -477,7 +482,7 @@ export function getDefaultCashFlow(): CashFlowData {
         details: [
           { item: 'Business Rates', net: 5000, vat: 0, gross: 5000, vatReclaimable: false },
         ],
-        closingBalance: 401501.40,
+        closingBalance: 375823.80,
       },
       {
         month: 'Feb 2026',
@@ -487,7 +492,7 @@ export function getDefaultCashFlow(): CashFlowData {
         details: [
           { item: 'Business Rates', net: 5000, vat: 0, gross: 5000, vatReclaimable: false },
         ],
-        closingBalance: 396501.40,
+        closingBalance: 370823.80,
       },
       {
         month: 'Mar 2026',
@@ -496,10 +501,10 @@ export function getDefaultCashFlow(): CashFlowData {
         vatTotal: 6419.40,
         details: [
           { item: 'Business Rates', net: 5000, vat: 0, gross: 5000, vatReclaimable: false },
-          { item: 'Q2 Rent', net: 32097, vat: 6419.40, gross: 38516.40, vatReclaimable: true },
+          { item: 'Q2 Rent (50% reduced rate)', net: 32097, vat: 6419.40, gross: 38516.40, vatReclaimable: true },
           { item: 'Service Charge (Q2)', net: 3000, vat: 0, gross: 3000, vatReclaimable: false },
         ],
-        closingBalance: 349985,
+        closingBalance: 324307.40,
       },
       {
         month: 'Apr 2026',
@@ -509,7 +514,7 @@ export function getDefaultCashFlow(): CashFlowData {
         details: [
           { item: 'Business Rates', net: 5000, vat: 0, gross: 5000, vatReclaimable: false },
         ],
-        closingBalance: 344985,
+        closingBalance: 319307.40,
       },
       {
         month: 'May 2026',
@@ -519,7 +524,7 @@ export function getDefaultCashFlow(): CashFlowData {
         details: [
           { item: 'Business Rates', net: 5000, vat: 0, gross: 5000, vatReclaimable: false },
         ],
-        closingBalance: 339985,
+        closingBalance: 314307.40,
       },
       {
         month: 'Jun 2026',
@@ -528,10 +533,10 @@ export function getDefaultCashFlow(): CashFlowData {
         vatTotal: 6419.40,
         details: [
           { item: 'Business Rates', net: 5000, vat: 0, gross: 5000, vatReclaimable: false },
-          { item: 'Q3 Rent', net: 32097, vat: 6419.40, gross: 38516.40, vatReclaimable: true },
+          { item: 'Q3 Rent (50% reduced rate)', net: 32097, vat: 6419.40, gross: 38516.40, vatReclaimable: true },
           { item: 'Service Charge (Q3)', net: 3000, vat: 0, gross: 3000, vatReclaimable: false },
         ],
-        closingBalance: 293468.60,
+        closingBalance: 267791,
       },
     ],
     burnRate: 19239,
